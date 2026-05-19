@@ -1,0 +1,13 @@
+# Large data files
+*.parquet
+*.csv
+*.zip
+*.gz
+
+# Allow small data samples
+!data_sample/*.csv
+
+# Jupyter/system files
+.ipynb_checkpoints/
+__pycache__/
+*.log

@@ -1,0 +1,31 @@
+Notes Data Quality
+
+Für 03_data_quality würde ich später filtern:
+Viele Daten sind ausserhalb vom Logischen bereich
+
+df_clean = df_prepared \
+    .filter(F.col("pickup_year") == F.col("file_year")) \
+    .filter(F.col("pickup_month") == F.col("file_month")) \
+    .filter(F.col("dropoff_datetime") > F.col("pickup_datetime")) \
+    .filter(F.col("trip_duration_minutes") > 0) \
+    .filter(F.col("trip_duration_minutes") <= 180)
+
+Dafür müssen wir im Preprocessing aber file_year und file_month aus dem Dateinamen ergänzen.
+
+
+
+Viele Daten enthalten extem unlogische Werte -> z.b 120 Personen bei einer Fahrt
+Darum bereinigen:
+
+df_clean = df_prepared \
+    .filter(F.col("passenger_count").between(1, 6)) \
+    .filter(F.col("trip_distance_km") > 0) \
+    .filter(F.col("trip_distance_km") <= 160) \
+    .filter(F.col("fare_amount") >= 0) \
+    .filter(F.col("tip_amount") >= 0) \
+    .filter(F.col("total_amount") > 0) \
+    .filter(F.col("total_amount") <= 1000) \
+    .filter(F.col("trip_duration_minutes") > 0) \
+    .filter(F.col("trip_duration_minutes") <= 180) \
+    .filter(F.col("avg_speed_kmh") > 0) \
+    .filter(F.col("avg_speed_kmh") <= 150)

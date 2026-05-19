@@ -1,0 +1,29 @@
+Daten Schema Anpassen!
+
+
+df_prepared = df.select(
+    F.col("tpep_pickup_datetime").cast("timestamp").alias("pickup_datetime"),
+    F.col("tpep_dropoff_datetime").cast("timestamp").alias("dropoff_datetime"),
+    F.col("passenger_count").cast("long").alias("passenger_count"),
+    F.col("trip_distance").cast("double").alias("trip_distance_miles"),
+    F.col("payment_type").cast("long").alias("payment_type"),
+    F.col("fare_amount").cast("double").alias("fare_amount"),
+    F.col("tip_amount").cast("double").alias("tip_amount"),
+    F.col("total_amount").cast("double").alias("total_amount"),
+    F.col("PULocationID").cast("long").alias("pickup_location_id"),
+    F.col("DOLocationID").cast("long").alias("dropoff_location_id")
+)
+
+
+
+Datum und Uhrzeit aus Timestamp lesen damit man das später bei Quality besser filtern kann 
+
+from pyspark.sql.functions import input_file_name, regexp_extract
+
+df_prepared = df.withColumn(
+    "file_year",
+    regexp_extract(input_file_name(), r"/taxi/raw/(\d{4})/", 1).cast("int")
+).withColumn(
+    "file_month",
+    regexp_extract(input_file_name(), r"yellow_tripdata_\d{4}-(\d{2})\.parquet", 1).cast("int")
+)
