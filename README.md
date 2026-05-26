@@ -55,6 +55,7 @@ Die wichtigsten Schritte sind:
 
 4. **Analysis**  
    Analyse der beiden Research Questions mit dem vollständigen bereinigten Datensatz.
+   Kann mit True/False umgestellt werden auf Sample Daten oder vollständigen Daten
 
 ### `results/`
 
